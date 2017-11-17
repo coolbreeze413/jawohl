@@ -1,0 +1,53 @@
+JAVA SWT
+
+tutorials/guides:
+https://code.google.com/archive/a/eclipselabs.org/p/timeme/wikis/SWT.wiki
+http://www.vogella.com/tutorials/SWT/article.html
+http://www.vogella.com/tutorials/SWTCustomWidget/article.html
+http://www.eclipse.org/swt/widgets/
+http://www.eclipse.org/articles/article.php?file=Article-Understanding-Layouts/index.html
+
+cross platform swt using swtjar ant build script:
+https://coffeeorientedprogramming.wordpress.com/tag/cross-platform-2/
+https://stackoverflow.com/questions/2706222/create-cross-platform-java-swt-application/3204032#3204032
+https://github.com/mchr3k/swtjar --> forked at: https://github.com/coolbreeze413/swtjar
+http://mchr3k.github.io/swtjar/
+http://mchr3k.github.io/swtjar/osxapp.html
+https://github.com/coolbreeze413/crossSWT
+
+cross platform swt with maven:
+https://github.com/raisercostin/eclipse-jarinjarloader
+https://github.com/jendap/multiplatform-swt
+
+
+problems and solutions:
+(1) loading image using relative path, both from jar and eclipse project
+https://stackoverflow.com/questions/573679/open-resource-with-relative-path-in-java
+http://ant.apache.org/manual/Types/zipfileset.html
+some more details: https://stackoverflow.com/questions/22735524/how-to-load-a-resource-in-both-ide-and-jar-using-the-same-string
+
+(2) get all network interfaces in system:
+https://stackoverflow.com/questions/11102108/how-to-get-all-network-interfaces-in-java-and-store-the-information-in-java-map
+https://stackoverflow.com/questions/494465/how-to-enumerate-ip-addresses-of-all-enabled-nic-cards-from-java
+
+(3) Do not use RowLayout, use GridLayout, more flexible. can adjust composites to fill the parent. with RowLayout, we cannot.
+
+(4) set number of rows to display in multi line text (SWT.MULTI)
+https://stackoverflow.com/questions/9167525/setting-number-of-rows-to-be-displayed-for-multi-line-text-in-swt
+
+
+
+examples:
+https://www.eclipse.org/swt/snippets/
+https://howtodoinjava.com/swt/how-to-create-splash-window-using-java-swt/
+http://o7planning.org/en/11319/java-swt-tabfolder-and-ctabfolder-tutorial
+https://github.com/mittman/timeme
+https://github.com/pajp/duper
+[non SWT] https://github.com/coolbreeze413/SocketTest
+
+more resources, and widgets with SWT:
+http://www.eclipse.org/nebula/
+
+
+template that we maintain for SWT, forked from https://github.com/LeoUfimtsev/crossSWT:
+https://github.com/coolbreeze413/crossSWT
