@@ -2,8 +2,87 @@
 <project default="win32-win32-x86_64" name="build_all_platform_jars">
 	<!--this file was created by Eclipse Runnable JAR Export Wizard-->
 	<!--ANT 1.7 is required                                        -->
-	<!--define folder properties-->
+	<!--define project properties-->
+    
+    <property name="project.name" value="jawohl" />
+    <property name="project.dir.root" value="${user.dir}" />
+    <property name="project.swt.version" value="4.7.1a" />
+    <property name="project.dir.output.name" value="outputs" />
+    <property name="project.dir.out" value="${project.dir.root}/${project.dir.output.name}" />
+    <property name="project.dir.javabin.name" value="bin" />
+    <property name="project.dir.javabin" value="${project.dir.root}/${project.dir.javabin.name}" />
+    <property name="project.dir.javasrc.name" value="src" />
+    <property name="project.dir.javasrc" value="${project.dir.root}/${project.dir.javasrc.name}" />
+    <property name="project.dir.javares.name" value="res" />
+    <property name="project.dir.javares" value="${project.dir.root}/${project.dir.javares.name}" />
+    
+    <!-- setup classpath for use in java compilation -->
+    <!-- fileset and pathelement are used to setup path objects -->    
+    <path id="project.compile.classpath">
+    
+        <fileset dir="${project.dir.root}/lib_compile">
+            <include name="*.jar"/>
+        </fileset>
 
+        <pathelement path="${project.dir.root}"/>
+        
+    </path>
+    
+    <!-- setup classpath for use in java run -->
+    <!-- fileset and pathelement are used to setup path objects -->    
+    <path id="project.run.classpath">
+    
+        <fileset dir="${project.dir.root}/lib_compile">
+            <include name="*.jar"/>
+        </fileset>
+        <pathelement path="${project.dir.root}">
+        </pathelement>
+        <pathelement path="${project.dir.javabin}">
+        </pathelement>
+        <pathelement path="${project.dir.javares}">
+        </pathelement>
+        
+    </path>
+    
+    <target name="clean">
+        <!-- recreate the java compilation target directory for output -->
+        <delete dir="${project.dir.javabin}"/>
+        <mkdir dir="${project.dir.javabin}"/>
+    </target>
+    
+    <!-- use the javac ant task to do java compilation -->
+    <!-- 
+    note that, we need the rt.jar from the target's version to ensure this will actually run correctly.
+    here, we are using jdk 1.8, but targeting 1.6. however, this may not work, as we do not have the
+    1.6 rt.jar (yet) TODO
+    REF: https://stackoverflow.com/questions/28287383/ant-javac-task-errs-out-javac-warning-options-bootstrap-class-path-not-set
+    add the option: bootclasspath="${java6.boot.classpath}" define the java6 path for rt.jar
+    -->
+    
+    <target name="compile" depends="clean">
+        <javac 
+        includeantruntime="false" 
+        srcdir="${project.dir.javasrc}" 
+        destdir="${project.dir.javabin}" 
+        includes="**/*.java" 
+        target="1.6"
+        source="1.6"
+        >
+            <classpath refid="project.compile.classpath" />
+        </javac>
+    </target>
+
+    <!-- use the java ant task to do java run -->
+    <target name="run" depends="compile">        
+        <java 
+        classname="ApplicationLauncher" 
+        fork="true">
+        <classpath refid="project.run.classpath" />
+        </java>        
+    </target>
+
+    
+    
 	<target name="build_all" depends="build_win,build_linux_x86,build_linux_ppc,build_macosx">
 	</target>
 
@@ -16,127 +95,93 @@
 	<target name="build_linux_ppc" depends="gtk-linux-ppc64,gtk-linux-ppc64le">
 	</target>
 
-
 	<target name="build_macosx" depends="cocoa-macosx-x86_64">
 	</target>
+    
 
-
-	<target name="cocoa-macosx-x86_64">
-		<create_run_jar
-						project.name="jawohl"
-						swt.version="4.7.1a"
-						target.framework="cocoa" target.platform="macosx" target.arch="x86_64"
-						dir.root="${user.dir}"
-						dir.output.name="outputs" />
+	<target name="cocoa-macosx-x86_64" depends="compile">
+		<create_jar
+			target.framework="cocoa" 
+            target.platform="macosx" 
+            target.arch="x86_64" 
+        />
 	</target>
 
-	<target name="gtk-linux-ppc64">
-		<create_run_jar
-					project.name="jawohl"
-					swt.version="4.7.1a"
-					target.framework="gtk" target.platform="linux" target.arch="ppc64"
-					dir.root="${user.dir}"
-					dir.output.name="outputs" />
+	<target name="gtk-linux-ppc64" depends="compile">
+		<create_jar
+			target.framework="gtk" 
+            target.platform="linux" 
+            target.arch="ppc64"
+		/>
 	</target>
 
-	<target name="gtk-linux-ppc64le">
-		<create_run_jar
-				project.name="jawohl"
-				swt.version="4.7.1a"
-				target.framework="gtk" target.platform="linux" target.arch="ppc64le"
-				dir.root="${user.dir}"
-				dir.output.name="outputs" />
+	<target name="gtk-linux-ppc64le" depends="compile">
+		<create_jar
+			target.framework="gtk" 
+            target.platform="linux" 
+            target.arch="ppc64le"
+		/>
 	</target>
 
-	<target name="gtk-linux-x86">
-		<create_run_jar
-			project.name="jawohl"
-			swt.version="4.7.1a"
-			target.framework="gtk" target.platform="linux" target.arch="x86"
-			dir.root="${user.dir}"
-			dir.output.name="outputs" />
+	<target name="gtk-linux-x86" depends="compile">
+		<create_jar
+			target.framework="gtk" 
+            target.platform="linux" 
+            target.arch="x86"
+		/>
 	</target>
 
-	<target name="gtk-linux-x86_64">
-		<create_run_jar
-			project.name="jawohl"
-			swt.version="4.7.1a"
-			target.framework="gtk" target.platform="linux" target.arch="x86_64"
-			dir.root="${user.dir}"
-			dir.output.name="outputs" />
+	<target name="gtk-linux-x86_64" depends="compile">
+		<create_jar
+			target.framework="gtk" 
+            target.platform="linux" 
+            target.arch="x86_64"
+		/>
 	</target>
 
-	<target name="win32-win32-x86_64">
-		<create_run_jar
-			project.name="jawohl"
-			swt.version="4.7.1a"
-			target.framework="win32" target.platform="win32" target.arch="x86_64"
-			dir.root="${user.dir}"
-			dir.output.name="outputs" />
+	<target name="win32-win32-x86_64" depends="compile">
+		<create_jar
+			target.framework="win32" 
+            target.platform="win32" 
+            target.arch="x86_64"
+		/>
 	</target>
 
-	<target name="win32-win32-x86">
-		<create_run_jar
-			project.name="jawohl"
-			swt.version="4.7.1a"
-			target.framework="win32" target.platform="win32" target.arch="x86"
-			dir.root="${user.dir}"
-			dir.output.name="outputs" />
+	<target name="win32-win32-x86" depends="compile">
+		<create_jar
+			target.framework="win32" 
+            target.platform="win32" 
+            target.arch="x86"
+		/>
 	</target>
 
 
-	<macrodef name="create_run_jar">
+	<macrodef name="create_jar">
 		<!--
 		target.
-				platform = win32/linux/macosx
-				arch = x86/x86_64/ppc64/ppc64le
-				framework = win32/gtk/cocoa
+            platform = win32/linux/macosx
+            arch = x86/x86_64/ppc64/ppc64le
+            framework = win32/gtk/cocoa
 				
-		<dir.root> is where the build.xml is assumed to be in, and is passed in.
-		<dir.root>/<dir.output.name>/ dir will be created.
-		<dir.root>/<dir.output.name>/<project.name>-<target.name> directory will be created.
-		<dir.root>/<dir.output.name>/<project.name>-<target.name>.zip file will be created.
+		<project.dir.root>/<project.dir.output.name>/<project.name>-<target.name> directory will be created.
+		<project.dir.root>/<project.dir.output.name>/<project.name>-<target.name>.zip file will be created.
 		-->
-		<attribute name="project.name" />
-		<attribute name="swt.version" />
 		<attribute name="target.framework" />
 		<attribute name="target.platform" />
 		<attribute name="target.arch" />
-		<attribute name="dir.root" />
-		<attribute name="dir.output.name" />
 
 		<sequential>
 			
-			<local name="project.name"/>
-			<property name="project.name" value="@{project.name}" />
-			<echo message="project.name=${project.name}" />
-			
-			<local name="swt.version"/>
-			<property name="swt.version" value="@{swt.version}" />
-			<echo message="swt.version=${swt.version}" />
-
 			<local name="target.name"/>
 			<property name="target.name" value="@{target.framework}-@{target.platform}-@{target.arch}" />
 			<echo message="target.name=${target.name}" />
-			
-			<local name="dir.root"/>
-			<property name="dir.root" value="@{dir.root}" />
-			<echo message="dir.root=${dir.root}" />
-			
-			<local name="dir.output.name"/>
-			<property name="dir.output.name" value="@{dir.output.name}" />
-			<echo message="dir.output.name=${dir.output.name}" />
-			
-			<local name="dir.out"/>
-			<property name="dir.out" value="@{dir.root}/@{dir.output.name}" />
-			<echo message="dir.out=${dir.out}" />
 
 			<local name="dir.target"/>
-			<property name="dir.target" value="${dir.out}/${project.name}-${target.name}" />
+			<property name="dir.target" value="${project.dir.out}/${project.name}-${target.name}" />
 			<echo message="dir.target=${dir.target}" />
 			
 			<local name="dir.targetzip"/>
-			<property name="dir.targetzip" value="${dir.out}/${project.name}-${target.name}.zip" />
+			<property name="dir.targetzip" value="${project.dir.out}/${project.name}-${target.name}.zip" />
 			<echo message="dir.targetzip=${dir.targetzip}" />
 
 
@@ -154,13 +199,13 @@
 					<attribute name="Main-Class" value="ApplicationLauncher"/>
 					<attribute name="Class-Path" value=". ${project.name}_libs/swt.jar"/>
 				</manifest>
-				<fileset dir="${dir.root}/bin"/>
-				<fileset dir="${dir.root}/res"/>
+				<fileset dir="${project.dir.javabin}"/>
+				<fileset dir="${project.dir.javares}"/>
 			</jar>
 
 			<!-- copy the swt libary into the libs -->
 			<unzip dest="${dir.target}/${project.name}_libs">
-				<fileset dir="${dir.root}/lib">
+				<fileset dir="${project.dir.root}/lib">
 					<include name="**/swt-*-${target.name}.zip"/>
 				</fileset>
 				<patternset>
@@ -172,6 +217,53 @@
 			<zip destfile="${dir.targetzip}">
 				<zipfileset dir="${dir.target}"/>
 			</zip>
+
+		</sequential>
+	</macrodef>
+
+    <target name="run-win32-win32-x86_64" depends="win32-win32-x86_64">
+		<run_jar
+			target.framework="win32" 
+            target.platform="win32" 
+            target.arch="x86_64"
+		/>
+	</target>
+    <!-- add other run targets for jar files in the same way -->
+
+	<macrodef name="run_jar">
+		<!--
+		target.
+            platform = win32/linux/macosx
+            arch = x86/x86_64/ppc64/ppc64le
+            framework = win32/gtk/cocoa
+				
+		<project.dir.root>/<project.dir.output.name>/<project.name>-<target.name> directory will be created.
+		<project.dir.root>/<project.dir.output.name>/<project.name>-<target.name>.zip file will be created.
+		-->
+		<attribute name="target.framework" />
+		<attribute name="target.platform" />
+		<attribute name="target.arch" />
+
+		<sequential>
+			
+			<local name="target.name"/>
+			<property name="target.name" value="@{target.framework}-@{target.platform}-@{target.arch}" />
+			<echo message="target.name=${target.name}" />
+
+			<local name="dir.target"/>
+			<property name="dir.target" value="${project.dir.out}/${project.name}-${target.name}" />
+			<echo message="dir.target=${dir.target}" />
+			
+			<local name="dir.targetzip"/>
+			<property name="dir.targetzip" value="${project.dir.out}/${project.name}-${target.name}.zip" />
+			<echo message="dir.targetzip=${dir.targetzip}" />
+
+            <java 
+                jar="${dir.target}/${project.name}.jar"
+                fork="true"
+                failonerror="true">
+                <classpath refid="project.run.classpath" />
+            </java>
 
 		</sequential>
 	</macrodef>
