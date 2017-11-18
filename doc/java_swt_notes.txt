@@ -1,11 +1,27 @@
 JAVA SWT
 
+required: [eclipse + jdt]
+OR
+required: [ant] tutorial: [http://www.vogella.com/tutorials/ApacheAnt/article.html]
+
+building with ant for java:
+https://stackoverflow.com/questions/15978903/using-ant-to-compile-java-code
+https://stackoverflow.com/questions/722774/getting-ant-javac-to-recognise-a-classpath
+https://stackoverflow.com/questions/32578086/compile-with-java-6-from-java-8-jdk-installed
+https://stackoverflow.com/questions/5103384/ant-warning-includeantruntime-was-not-set
+https://stackoverflow.com/questions/28287383/ant-javac-task-errs-out-javac-warning-options-bootstrap-class-path-not-set
+
+
+
+
+
 tutorials/guides:
 https://code.google.com/archive/a/eclipselabs.org/p/timeme/wikis/SWT.wiki
 http://www.vogella.com/tutorials/SWT/article.html
 http://www.vogella.com/tutorials/SWTCustomWidget/article.html
 http://www.eclipse.org/swt/widgets/
 http://www.eclipse.org/articles/article.php?file=Article-Understanding-Layouts/index.html
+https://stackoverflow.com/questions/31234522/cant-understand-classpath-for-the-life-of-me
 
 cross platform swt using swtjar ant build script:
 https://coffeeorientedprogramming.wordpress.com/tag/cross-platform-2/
@@ -18,6 +34,17 @@ https://github.com/coolbreeze413/crossSWT
 cross platform swt with maven:
 https://github.com/raisercostin/eclipse-jarinjarloader
 https://github.com/jendap/multiplatform-swt
+
+
+separate jars per platform:
+(1) http://wiki.eclipse.org/FAQ_How_do_I_create_an_executable_JAR_file_for_a_stand-alone_SWT_program%3F
+ export runnable jar with ANT build file option checked. one time. ensure classpath is correct.
+ create top level build script to auto generate other builds.
+(2) https://stackoverflow.com/questions/23359351/build-one-jar-per-platform-for-multi-platform-swt-application
+(3) http://launch4j.sourceforge.net/
+(4) http://one-jar.sourceforge.net/index.php?page=build-tools&file=ant-example
+
+
 
 
 problems and solutions:
@@ -51,3 +78,6 @@ http://www.eclipse.org/nebula/
 
 template that we maintain for SWT, forked from https://github.com/LeoUfimtsev/crossSWT:
 https://github.com/coolbreeze413/crossSWT
+
+
+https://stackoverflow.com/questions/12513114/should-i-check-in-the-eclipse-settings-settings-to-svn
