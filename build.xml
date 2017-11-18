@@ -3,64 +3,64 @@
 	<!--this file was created by Eclipse Runnable JAR Export Wizard-->
 	<!--ANT 1.7 is required                                        -->
 	<!--define project properties-->
-    
-    <property name="project.name" value="jawohl" />
-    <property name="project.dir.root" value="${user.dir}" />
-    <property name="project.swt.version" value="4.7.1a" />
-    <property name="project.dir.output.name" value="outputs" />
-    <property name="project.dir.out" value="${project.dir.root}/${project.dir.output.name}" />
-    <property name="project.dir.javabin.name" value="bin" />
-    <property name="project.dir.javabin" value="${project.dir.root}/${project.dir.javabin.name}" />
-    <property name="project.dir.javasrc.name" value="src" />
-    <property name="project.dir.javasrc" value="${project.dir.root}/${project.dir.javasrc.name}" />
-    <property name="project.dir.javares.name" value="res" />
-    <property name="project.dir.javares" value="${project.dir.root}/${project.dir.javares.name}" />
-    
-    <!-- setup classpath for use in java compilation -->
-    <!-- fileset and pathelement are used to setup path objects -->    
-    <path id="project.compile.classpath">
-    
-        <fileset dir="${project.dir.root}/lib_compile">
-            <include name="*.jar"/>
-        </fileset>
 
-        <pathelement path="${project.dir.root}"/>
-        
-    </path>
-    
-    <!-- setup classpath for use in java run -->
-    <!-- fileset and pathelement are used to setup path objects -->    
-    <path id="project.run.classpath">
-    
-        <fileset dir="${project.dir.root}/lib_compile">
-            <include name="*.jar"/>
-        </fileset>
-        <pathelement path="${project.dir.root}">
-        </pathelement>
-        <pathelement path="${project.dir.javabin}">
-        </pathelement>
-        <pathelement path="${project.dir.javares}">
-        </pathelement>
-        
-    </path>
-    
-    <target name="clean">
-        <!-- recreate the java compilation target directory for output -->
-        <delete dir="${project.dir.javabin}"/>
-        <mkdir dir="${project.dir.javabin}"/>
-    </target>
-    
-    <!-- use the javac ant task to do java compilation -->
-    <!-- 
+	<property name="project.name" value="jawohl" />
+	<property name="project.dir.root" value="${user.dir}" />
+	<property name="project.swt.version" value="4.7.1a" />
+	<property name="project.dir.output.name" value="outputs" />
+	<property name="project.dir.out" value="${project.dir.root}/${project.dir.output.name}" />
+	<property name="project.dir.javabin.name" value="bin" />
+	<property name="project.dir.javabin" value="${project.dir.root}/${project.dir.javabin.name}" />
+	<property name="project.dir.javasrc.name" value="src" />
+	<property name="project.dir.javasrc" value="${project.dir.root}/${project.dir.javasrc.name}" />
+	<property name="project.dir.javares.name" value="res" />
+	<property name="project.dir.javares" value="${project.dir.root}/${project.dir.javares.name}" />
+
+	<!-- setup classpath for use in java compilation -->
+	<!-- fileset and pathelement are used to setup path objects -->
+	<path id="project.compile.classpath">
+
+		<fileset dir="${project.dir.root}/lib_compile">
+			<include name="*.jar"/>
+		</fileset>
+
+		<pathelement path="${project.dir.root}"/>
+
+	</path>
+
+	<!-- setup classpath for use in java run -->
+	<!-- fileset and pathelement are used to setup path objects -->
+	<path id="project.run.classpath">
+
+		<fileset dir="${project.dir.root}/lib_compile">
+			<include name="*.jar"/>
+		</fileset>
+		<pathelement path="${project.dir.root}">
+		</pathelement>
+		<pathelement path="${project.dir.javabin}">
+		</pathelement>
+		<pathelement path="${project.dir.javares}">
+		</pathelement>
+
+	</path>
+
+	<target name="clean">
+		<!-- recreate the java compilation target directory for output -->
+		<delete dir="${project.dir.javabin}"/>
+		<mkdir dir="${project.dir.javabin}"/>
+	</target>
+
+	<!-- use the javac ant task to do java compilation -->
+	<!-- 
     note that, we need the rt.jar from the target's version to ensure this will actually run correctly.
     here, we are using jdk 1.8, but targeting 1.6. however, this may not work, as we do not have the
     1.6 rt.jar (yet) TODO
     REF: https://stackoverflow.com/questions/28287383/ant-javac-task-errs-out-javac-warning-options-bootstrap-class-path-not-set
     add the option: bootclasspath="${java6.boot.classpath}" define the java6 path for rt.jar
     -->
-    
-    <target name="compile" depends="clean">
-        <javac 
+
+	<target name="compile" depends="clean">
+		<javac 
         includeantruntime="false" 
         srcdir="${project.dir.javasrc}" 
         destdir="${project.dir.javabin}" 
@@ -68,21 +68,21 @@
         target="1.6"
         source="1.6"
         >
-            <classpath refid="project.compile.classpath" />
-        </javac>
-    </target>
+			<classpath refid="project.compile.classpath" />
+		</javac>
+	</target>
 
-    <!-- use the java ant task to do java run -->
-    <target name="run" depends="compile">        
-        <java 
+	<!-- use the java ant task to do java run -->
+	<target name="run" depends="compile">
+		<java 
         classname="ApplicationLauncher" 
         fork="true">
-        <classpath refid="project.run.classpath" />
-        </java>        
-    </target>
+			<classpath refid="project.run.classpath" />
+		</java>
+	</target>
 
-    
-    
+
+
 	<target name="build_all" depends="build_win,build_linux_x86,build_linux_ppc,build_macosx">
 	</target>
 
@@ -97,7 +97,7 @@
 
 	<target name="build_macosx" depends="cocoa-macosx-x86_64">
 	</target>
-    
+
 
 	<target name="cocoa-macosx-x86_64" depends="compile">
 		<create_jar
@@ -171,7 +171,7 @@
 		<attribute name="target.arch" />
 
 		<sequential>
-			
+
 			<local name="target.name"/>
 			<property name="target.name" value="@{target.framework}-@{target.platform}-@{target.arch}" />
 			<echo message="target.name=${target.name}" />
@@ -179,7 +179,7 @@
 			<local name="dir.target"/>
 			<property name="dir.target" value="${project.dir.out}/${project.name}-${target.name}" />
 			<echo message="dir.target=${dir.target}" />
-			
+
 			<local name="dir.targetzip"/>
 			<property name="dir.targetzip" value="${project.dir.out}/${project.name}-${target.name}.zip" />
 			<echo message="dir.targetzip=${dir.targetzip}" />
@@ -221,14 +221,14 @@
 		</sequential>
 	</macrodef>
 
-    <target name="run-win32-win32-x86_64" depends="win32-win32-x86_64">
+	<target name="run-win32-win32-x86_64" depends="win32-win32-x86_64">
 		<run_jar
-			target.framework="win32" 
+            target.framework="win32" 
             target.platform="win32" 
             target.arch="x86_64"
 		/>
 	</target>
-    <!-- add other run targets for jar files in the same way -->
+	<!-- add other run targets for jar files in the same way -->
 
 	<macrodef name="run_jar">
 		<!--
@@ -245,7 +245,7 @@
 		<attribute name="target.arch" />
 
 		<sequential>
-			
+
 			<local name="target.name"/>
 			<property name="target.name" value="@{target.framework}-@{target.platform}-@{target.arch}" />
 			<echo message="target.name=${target.name}" />
@@ -253,17 +253,17 @@
 			<local name="dir.target"/>
 			<property name="dir.target" value="${project.dir.out}/${project.name}-${target.name}" />
 			<echo message="dir.target=${dir.target}" />
-			
+
 			<local name="dir.targetzip"/>
 			<property name="dir.targetzip" value="${project.dir.out}/${project.name}-${target.name}.zip" />
 			<echo message="dir.targetzip=${dir.targetzip}" />
 
-            <java 
+			<java 
                 jar="${dir.target}/${project.name}.jar"
                 fork="true"
                 failonerror="true">
-                <classpath refid="project.run.classpath" />
-            </java>
+				<classpath refid="project.run.classpath" />
+			</java>
 
 		</sequential>
 	</macrodef>
